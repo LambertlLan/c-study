@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="https://statics.guibi.com/js/jquery.js?v=1.23"></script>
+    <script type="text/javascript" src="https://statics.guibi.com/js/jquery.form.js?v=1.23"></script>
+    <script type="text/javascript" src="https://statics.guibi.com/js/template.js?v=1.23"></script>
+    <script type="text/javascript" src="https://statics.guibi.com/layer/layer.js?v=1.23"></script>
+    <script type="text/javascript" src="https://statics.guibi.com/js/simpleslide.js?v=1.23"></script>
+    <script type="text/javascript" src="https://statics.guibi.com/js/common.js?v=1.23"></script>
+    <link rel="stylesheet" type="text/css" href="https://statics.guibi.com/css/live.css?v=1.23" />
+    <script type="text/javascript" src="https://statics.guibi.com/js/websocket.js?v=1.23"></script>
+    <script type="text/javascript" src="https://statics.guibi.com/NchanSubscriber.js?v=1.23"></script>
+    <script type="text/javascript" src="https://statics.guibi.com/js/live.gift.js?v=1.23"></script>
+    <script type="text/javascript" src="https://statics.guibi.com/js/clipboard.min.js?v=1.23"></script>
+    <link rel="stylesheet" type="text/css" href="https://statics.guibi.com/editor/css/wangEditor.min.css?v=1.23" />
+    <script type="text/javascript" src="https://statics.guibi.com/editor/js/wangEditor.js?v=1.23"></script>
+    <script type="text/javascript" src="https://statics.guibi.com/editor/js/emotions.js?v=1.23"></script>
+    <script type="text/javascript" src="https://statics.guibi.com/js/json2.js?v=1.23"></script>
+</head>
+</head>
+
+<body>
+    <ul id='content'>
+        <li>在这里展示信息</li>
+    </ul>
+</body>
+<script type="text/javascript" src="https://statics.guibi.com/js/jquery.qrcode.min.js?v=1.23"></script>
+<script type="text/javascript" src="https://statics.guibi.com/js/expression.js?v=1.23"></script>
+<script type="text/javascript" src="https://statics.guibi.com/js/websocket.js?v=1.23"></script>
+<script type="text/javascript" src="https://statics.guibi.com/js/jqeruy.live.min.js?v=1?v=1.23"></script>
+<script>
+    $(function() {
+
+        $('#qrcode').qrcode({
+            render: "canvas", //也可以替换为table
+            width: 140, //单位是像素
+            height: 120,
+            text: "http://m.guibi.com/#/live/opinion/19169"
+        });
+
+        var pushStream = new window.PushStream({
+            url: "https://www.guibi.com/im/sub/l-10002?token=k1Ijijzpjq2KVui6T7pbkUQNLHbMHItKemocG6QjwP6MblxfgT0s1sDyACZWTzm2"
+        });
+        pushStream.onTextMessage = function(data) {
+            console.log(data);
+            $('#content').append('<li>昵称:' + data.data.nickname + '<br/>内容:' + data.data.content + '</li>')
+            // switch (data.cmd) {
+            //     case "s":
+            //         $.PushLive.addHtmlItem(data);
+            //         break;
+            //     case "a":
+            //         $.PushLive.updateInteractItem(data);
+            //         break;
+            //     case "d":
+            //         $.PushLive.removeHtmlItem(data);
+            //         break;
+            //     case "b":
+            //         $("#live-total-count").html(parseInt(data.data.total_count));
+            //         //$("#user-sign-count").html("("+data.data.sign_count+")");
+            //         break;
+            //     case "f":
+            //         if (data.data == 19169) {
+            //             Common.httpGet(Common.url + "/user/logout", {}, function(B) {
+            //                 if (B.status == 0) {
+            //                     layer.msg(B.data);
+            //                     return
+            //                 }
+            //                 window.location.reload()
+            //             });
+            //         }
+            //         break;
+            // }
+        };
+        pushStream.onConnectComplete = function() {
+            $.PushLive.connectComplete();
+        };
+        pushStream.connect();
+
+
+    });
+    // (function(A, B, D) {
+    //     var C = function(E) {
+    //         E = E || {};
+    //         this.url = E.url || "https://www.guibi.com/im/sub/l-10002?token=o5LrHEqyBZ8KsCXi166GFns_eA3TGd60O9qqTGcFWubM7UwB7rdTA3DDtxUFbo94";
+    //         this.onTextMessage = E.onTextMessage || null;
+    //         this.onConnectComplete = E.onConnectComplete || null;
+    //         console.log(this);
+    //     };
+    //     C.prototype = {
+    //         connect: function() {
+    //             var E = this;
+    //             var F;
+    //             if (A.WebSocket || A.MozWebSocket) {
+    //                 F = {
+    //                     subscriber: "websocket",
+    //                     shared: false
+    //                 };
+    //             } else {
+    //                 F = {
+    //                     subscriber: "longpoll",
+    //                     shared: false
+    //                 };
+    //             }
+    //             var G = new NchanSubscriber(this.url, F);
+    //             G.on("message", function(J, I) {
+    //                 console.log(J);
+    //                 if (J == D && J == null) {
+    //                     return null;
+    //                 }
+    //                 var H = jQuery.parseJSON(J);
+    //                 E.onTextMessage(H);
+    //             });
+    //             G.on("connect", function(H) {
+    //                 //console.log("连接成功");
+    //                 E.onConnectComplete();
+    //             });
+    //             G.on("disconnect", function(H) {
+    //                 console.log("断开连接");
+    //             });
+    //             G.on("error", function(H, I) {
+    //                 console.log("连接错误");
+    //             });
+    //             G.start();
+    //         }
+    //     };
+    //     A.PushStream = C;
+    //     var socket = new C();
+    //     socket.connect();
+    // })(window, document);
+</script>
+
+</html>
