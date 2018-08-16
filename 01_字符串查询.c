@@ -25,5 +25,6 @@ int main(int argc, char const *argv[])
     {
         printf("p1=%s\n", p1);
     }
+    printf("hahaha123456");
     return 0;
 }

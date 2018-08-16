@@ -1,4 +1,4 @@
-#include <stdio.h>
+�F!P=|! <stdio.h>
 #include <stdlib.h>
 //exit会结束进程
 void fun()
